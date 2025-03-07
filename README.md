@@ -3,43 +3,55 @@
 #dia 26/02
 
 #https://engsoftmoderna.info/cap7.html
+#Pacote
 
-#O pacote ajuda na arquitetura de software deixando o projeto mais organizado, eficiênciente, com o objetivo de criar um software de mais alto nível
 
-#Camada de apresentação (front) Camada de gerir informação (back) Camada de informação (bd,drivers, devices).
 
-#Anotação são tipos de componentes, são bibliotecas, feitas de antemão, e usadas para facilitar na programação
-#No Java se refere como @, Httpserveletrequest (Java) ajuda a entender oq è o Java vindo da internet(Baixo nível)
+-O pacote ajuda na arquitetura de software deixando o projeto mais organizado, eficiênciente, com o objetivo de criar um software de mais alto nível
 
-#Em linguagens de programação, "componentes" referem-se a blocos de código reutilizáveis que encapsulam funcionalidades específicas. Eles são como peças de um quebra-cabeça, permitindo que os desenvolvedores construam aplicações complexas combinando componentes menores e mais simples.
-#Características principais dos componentes:
-#Reusabilidade: Podem ser utilizados em diferentes partes do mesmo programa ou em programas distintos, economizando tempo e esforço de desenvolvimento.
-   #Encapsulamento: Ocultam a complexidade interna, expondo apenas uma interface bem definida para interação.
-   #Modularidade: Promovem a divisão do código em módulos independentes, facilitando a manutenção e o teste.
-   #Composição: Podem ser combinados para criar componentes mais complexos, seguindo o princípio de "construir a partir de blocos".
+-Camada de apresentação (front) Camada de gerir informação (back) Camada de informação (bd,drivers, devices).
+
+-anotação são tipos de componentes, são bibliotecas, feitas de antemão, e usadas para facilitar na programação
+-No Java se refere como @, Httpserveletrequest (Java) ajuda a entender oq è o Java vindo da internet(Baixo nível)
+
+-Em linguagens de programação, "componentes" referem-se a blocos de código reutilizáveis que encapsulam funcionalidades específicas. Eles são como peças de um quebra-cabeça, permitindo 
+que os desenvolvedores construam aplicações complexas combinando componentes menores e mais simples.
+
+-Características principais dos componentes:
+
+
+-Reusabilidade: Podem ser utilizados em diferentes partes do mesmo programa ou em programas distintos, economizando tempo e esforço de desenvolvimento.
+   -Encapsulamento: Ocultam a complexidade interna, expondo apenas uma interface bem definida para interação.
+   -Modularidade: Promovem a divisão do código em módulos independentes, facilitando a manutenção e o teste.
+   -Composição: Podem ser combinados para criar componentes mais complexos, seguindo o princípio de "construir a partir de blocos".
 #Tipos de componentes:
+
+
+
 #A definição exata de "componente" pode variar dependendo da linguagem de programação e do paradigma utilizado. No entanto, alguns exemplos comuns incluem:
-   #Funções e procedimentos: Blocos de código que realizam tarefas específicas.
-   #Classes e objetos: Unidades de código que combinam dados e comportamentos relacionados.
-   #Bibliotecas e módulos: Coleções de funções, classes e outros componentes que fornecem funcionalidades específicas.
-   #Controles de interface gráfica (UI): Elementos visuais como botões, caixas de texto e menus.
-#Componentes de software: Unidades de software independentes que podem ser implantadas e executadas em diferentes ambientes.
+   -Funções e procedimentos: Blocos de código que realizam tarefas específicas.
+   -Classes e objetos: Unidades de código que combinam dados e comportamentos relacionados.
+   -Bibliotecas e módulos: Coleções de funções, classes e outros componentes que fornecem funcionalidades específicas.
+   -Controles de interface gráfica (UI): Elementos visuais como botões, caixas de texto e menus.
+-Componentes de software: Unidades de software independentes que podem ser implantadas e executadas em diferentes ambientes.
+
+
 #Benefícios do uso de componentes:
-  #Aumento da produtividade: A reutilização de código reduz o tempo de desenvolvimento.
-   #Melhora da qualidade do código: Componentes bem testados e documentados tendem a ser mais confiáveis.
-   #Facilidade de manutenção: A modularidade facilita a identificação e correção de erros.
-   #Promoção da colaboração: Componentes podem ser desenvolvidos e compartilhados por diferentes equipes.
-#Em resumo, componentes são elementos fundamentais na programação moderna, permitindo a criação de aplicações mais eficientes, robustas e fáceis de manter.**
+  -Aumento da produtividade: A reutilização de código reduz o tempo de desenvolvimento.
+   -Melhora da qualidade do código: Componentes bem testados e documentados tendem a ser mais confiáveis.
+   -Facilidade de manutenção: A modularidade facilita a identificação e correção de erros.
+   -Promoção da colaboração: Componentes podem ser desenvolvidos e compartilhados por diferentes equipes.
+-Em resumo, componentes são elementos fundamentais na programação moderna, permitindo a criação de aplicações mais eficientes, robustas e fáceis de manter.**
 
 #Modulos
 
-#Modulos separação do código 
-#Exemplo: financeiro, logística, dois modulos diferentes
+-Modulos separação do código 
+-Exemplo: financeiro, logística, dois modulos diferentes
 
-#API. Modulo chama a API para compartilhar informações entre modulos
-#Cliente interface 
-#Cliente interface.    Aplicação lógica do mercado 
-#Cliente interface
+-API. Modulo chama a API para compartilhar informações entre modulos
+-Cliente interface 
+-Cliente interface.    Aplicação lógica do mercado 
+-Cliente interface
 
 
 
@@ -53,36 +65,36 @@
 
 #o objetivo dessa materia tem o missao de ensinar como qrquitetar um software de mais alto nivel
 
-# padrao utilizado do molde do projeto/software/arquitetura é em camadas
+- padrao utilizado do molde do projeto/software/arquitetura é em camadas
 
-#aruitetura amvc - model view-controler 
+-aruitetura amvc - model view-controler 
 
-#arquitetura em camadas 
-#as dua tem a missao de separar camadas (separar responsabilidade dento de uma aplicação)
+-arquitetura em camadas 
+-as dua tem a missao de separar camadas (separar responsabilidade dento de uma aplicação)
 
 
 
-#mvn(Model-View-Controller): 
+   #mvn(Model-View-Controller): 
 
-#Model: Representa os dados e a lógica de negócios da aplicação. É responsável por acessar e gerenciar os dados, 
+-Model: Representa os dados e a lógica de negócios da aplicação. É responsável por acessar e gerenciar os dados, 
 assim como aplicar as regras de negócio.
 
-#View: Responsável pela apresentação dos dados ao usuário. Esta camada renderiza a interface do usuário e exibe as 
-#informações vindas do modelo
+-View: Responsável pela apresentação dos dados ao usuário. Esta camada renderiza a interface do usuário e exibe as 
+-informações vindas do modelo
 
-#Controller: Atua como intermediário entre o Model e o View. Recebe as entradas do usuário, processa-as (geralmente 
-#invocando métodos no modelo), e seleciona a visão apropriada para retornar ao usuário.
+-Controller: Atua como intermediário entre o Model e o View. Recebe as entradas do usuário, processa-as (geralmente 
+-invocando métodos no modelo), e seleciona a visão apropriada para retornar ao usuário.
 
 
-#arquiteturas em camadas: 
+   #arquiteturas em camadas: 
 
-#Apresentação: Camada responsável pela interface do usuário e pela interação com o usuário final. Similar ao View no MVC.
+-Apresentação: Camada responsável pela interface do usuário e pela interação com o usuário final. Similar ao View no MVC.
 
-#Aplicação: Gerencia a lógica de negócios e controle de fluxo da aplicação. Similar ao Controller no MVC.
+-Aplicação: Gerencia a lógica de negócios e controle de fluxo da aplicação. Similar ao Controller no MVC.
 
-#Domínio: Inclui as regras de negócios e a lógica específica da aplicação.
+-Domínio: Inclui as regras de negócios e a lógica específica da aplicação.
 
-#Infraestrutura: Fornece serviços de suporte como persistência de dados, comunicação, etc.
+-Infraestrutura: Fornece serviços de suporte como persistência de dados, comunicação, etc.
 
 
 
@@ -92,11 +104,11 @@ assim como aplicar as regras de negócio.
 #model:acessar e gerneciar dados
 #controler:controla a tela
 
-#oq a enttidade representa é uma os dados que vao para uma outra tela
+-oq a enttidade representa é uma os dados que vao para uma outra tela
 
-#DTA: api faz a mesma coisa que o mvn (java)
+-DTA: api faz a mesma coisa que o mvn (java)
 
-#diferença:
+   #diferença:
 -Ambas as arquiteturas têm a missão de separação de responsabilidades.
 -MVC foca em dividir a aplicação em três componentes principais.
 -Arquitetura em Camadas pode ter várias camadas, proporcionando uma separação ainda mais detalhada e flexível.
@@ -186,3 +198,96 @@ HTTP/HTTPS, mensagens ou gRPC.
 -unico banco de dados/repositario
 
 
+
+
+#DIA 
+06/03
+
+Who Needs an Architect? https://martinfowler.com/ieeeSoftware/whoNeedsArchitect.pdf
+So, perhaps an architecture is the
+highest level concept that developers have of a
+system in its environment
+
+ What makes a component
+Customers have a
+different concept than developers. Customers do
+not care at all about the structure of significant
+components. So, perhaps an architecture is the
+highest level concept that developers have of a
+system in its environment.
+It is significant 
+because the 
+expert developers 
+say so
+
+Who Needs an Architect?
+
+
+
+
+
+
+
+
+      #O que é arquitetura?
+
+      
+   significant?
+
+      
+   a better definition would be “In most successful
+   software projects, the expert developers working
+   on that project have a shared understanding of the
+   design
+
+
+   This shared understanding
+   is called ‘architecture.’ This understanding
+   includes how the system is divided into
+   components and how the components interact through interfaces.
+
+      #Qual o comportamento do arquiteto da "Matrix"?
+
+   Customers have a
+   different concept than developers. Customers do
+   not care at all about the structure of significant
+   components. So, perhaps an architecture is the
+   highest level concept that developers have of a
+   system in its environment.
+   Qual o comportamento do arquiteto ideal?
+
+    guide, as in mountaineering. A
+   guide is a more experienced and skillful
+   team member who teaches other team
+   members to better fend for themselves
+   yet is always there for the really tricky
+   stuff. 
+   Architectus Oryzus is a different
+   kind of animal (if you can’t guess, try
+   www.nd.edu/~archives/latgramm.htm).
+   This kind of architect must be very
+   aware of what’s going on in the project,
+   looking out for important issues and
+   tackling them before they become a serious problem. When I see an architect
+   like this, the most noticeable part of the
+   work is the intense collaboration. In the
+   morning, the architect programs with a
+   developer, trying to harvest some common locking code. In the afternoon, the
+   architect participates in a requirements
+   session, helping explain to the requirements people the technical consequences of some of their ideas in nontechnical terms—such as development
+   costs. 
+   In many ways, the most important
+   activity of Architectus Oryzus is to
+   mentor the development team, to raise
+   their level so that they can take on
+   more complex issues
+
+
+
+
+extreme progaming 
+
+scrum
+
+
+Rup : unified process
