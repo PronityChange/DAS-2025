@@ -291,3 +291,69 @@ scrum
 
 
 Rup : unified process
+
+Aula 13/
+
+
+Fundamentos da Arquitetura de Software
+
+Pensamento Arquitetônico
+
+
+
+Aula 19/03
+Trade-offs
+Tópicos
+Filas
+Fan out
+Aula 02/04
+
+
+
+Trabalho sobre tópicos (CHAT)
+
+
+
+Aula 03/04
+
+Filas
+
+
+Aula 09/04
+
+
+
+Características Arquiteturais
+Criar um resumo
+
+
+Aula 16/04
+
+
+Fundamentos da Arquitetura de Software
+Criar um resumo
+
+
+Aula 24/04
+
+
+Estilo de Arquitetura em Camadas
+
+#Dia 24/04
+
+
+
+4 principais camadas
+
+sistema ditribuido pode usar camadas: semapraçao de responsabilidades por isso nos usamos camadas esse é o o motivo para que consiga isolar ua parte aalgo que so essa camada é responsalvel
+
+cada camada conversa com quem esta abixo dela 
+
+copartilhamento de componentes 
+
+pulo de camadas tambem é possivel
+
+
+
+
+
