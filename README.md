@@ -326,12 +326,102 @@ Aula 09/04
 Características Arquiteturais
 Criar um resumo
 
+Imagine que uma empresa precisa de um software novo para resolver um problema. Primeiro, eles listam o que o software precisa fazer – essas são as funcionalidades, os requisitos do negócio. Mas, além disso, o software precisa ter outras qualidades importantes para funcionar bem, como ser rápido, seguro e fácil de usar.
+
+A arquitetura de software é como o "esqueleto" e o "plano geral" do sistema. Ela define como as diferentes partes do software vão se organizar e se comunicar para atender tanto aos requisitos do negócio quanto a essas outras qualidades importantes.
+
+O que diferencia a arquitetura da codificação e do design "comum"?
+
+
+
+Codificação é escrever as linhas de código que fazem o software funcionar. É o nível mais baixo de detalhe.
+Design (em um sentido mais restrito) pode se referir ao design das telas, da experiência do usuário ou de componentes específicos do software.
+Arquitetura está em um nível mais alto. Ela define as características da arquitetura, que são aspectos cruciais para o sucesso do sistema, mas que não estão diretamente ligados ao que o software faz (a funcionalidade em si).
+
+
+Uma característica da arquitetura tem três pontos chave:
+
+Não é sobre o que o software faz diretamente (o domínio do problema): Por exemplo, "permitir que o usuário faça login" é um requisito do domínio. Já "o sistema precisa responder ao login em menos de 1 segundo" é uma característica da arquitetura (desempenho).
+Afeta a estrutura do software: Se precisamos que o sistema seja muito seguro para pagamentos, talvez tenhamos que criar um módulo específico e isolado para essa função. Isso influencia a forma como o software é construído.
+É essencial para o sucesso da aplicação: Se o sistema de um banco ficar fora do ar com frequência, mesmo que as funcionalidades de transferência funcionem bem, ele não terá sucesso. A disponibilidade (tempo que o sistema fica online) é uma característica da arquitetura essencial.
+
+
+
+Operacionais: Como o sistema funciona em termos de velocidade (desempenho), capacidade de lidar com muitos usuários (escalabilidade), se manter online (disponibilidade), etc.
+Estruturais: Como o código é organizado, se é fácil de mudar (manutenção), se pode ser usado em diferentes sistemas (reutilização), etc.
+Transversais: Características que se aplicam a várias partes do sistema, como segurança (autenticação, autorização), acessibilidade (para pessoas com deficiência), privacidade, etc.
+
+
+
+
 
 Aula 16/04
 
 
 Fundamentos da Arquitetura de Software
 Criar um resumo
+
+Padrões Fundamentais: A Base de Tudo
+
+Assim como na culinária existem técnicas básicas que são usadas em várias receitas, na arquitetura de software também existem padrões fundamentais que aparecem de diferentes formas em estilos mais complexos. Um exemplo clássico é o conceito de camadas, que separa o software em partes com responsabilidades diferentes (como a parte que mostra as coisas para o usuário e a parte que acessa o banco de dados). Essa ideia de camadas é bem antiga, mas continua sendo usada até hoje.
+
+A Grande Bola de Lama: Quando a "Receita" Deu Errado
+
+Imagine uma cozinha onde tudo está jogado, sem nenhuma organização. Os ingredientes estão misturados de qualquer jeito, os utensílios espalhados... O resultado provavelmente não será muito bom. Na arquitetura de software, quando não existe nenhuma estrutura clara, os arquitetos chamam isso de Grande Bola de Lama.
+
+É um sistema confuso, cheio de código mal organizado, difícil de entender e de mudar. As informações ficam espalhadas por todo lado, como se tudo fosse "global". Geralmente, esses sistemas surgem quando a equipe está com muita pressa e não se preocupa em criar uma estrutura desde o início, ou quando a estrutura inicial se perde com o tempo.
+
+É o tipo de arquitetura que todo mundo quer evitar, porque dificulta muito fazer qualquer alteração, testar o sistema, fazê-lo crescer (escalabilidade) e ter um bom desempenho. Infelizmente, é mais comum do que se imagina!
+
+Arquitetura Unitária: Tudo em Um Só Lugar
+
+Pense no primeiro computador, onde o software e o hardware eram quase uma coisa só. A arquitetura unitária é parecida: todo o software roda em um único lugar, como um único programa no seu computador.
+
+Hoje em dia, essa arquitetura é rara fora de sistemas muito específicos (como os que rodam dentro de equipamentos eletrônicos). A maioria dos softwares precisa crescer e lidar com mais coisas, então é melhor separar as responsabilidades.
+
+Cliente/Servidor: A Divisão de Tarefas
+
+Com o tempo, percebeu-se que era melhor dividir o trabalho. A arquitetura cliente/servidor faz exatamente isso: separa a parte que o usuário vê e interage (o "cliente") da parte que processa os dados e faz o trabalho pesado (o "servidor"). Existem diferentes tipos dessa arquitetura, dependendo de como essa divisão é feita:
+
+Desktop + servidor de banco de dados: O programa rodava no seu computador (desktop) e pegava os dados de um servidor de banco de dados separado.
+Navegador + servidor web: O que a gente mais usa hoje em dia! O navegador (Chrome, Firefox) é o cliente e o servidor web (onde o site está hospedado) é o servidor. Mesmo que o servidor web use um banco de dados separado, ainda é considerado uma arquitetura de duas camadas.
+Três camadas: Aqui, aparece uma camada intermediária entre o cliente e o banco de dados, geralmente um servidor de aplicação. Isso ajuda a organizar melhor o sistema e facilita a manutenção.
+Monolíticas Versus Distribuídas: Uma Grande Divisão
+
+Agora chegamos a uma das principais formas de classificar os estilos de arquitetura:
+
+Monolíticas: Todo o código do sistema é empacotado e rodado como uma única unidade. Pense em um bolo inteiro.
+Distribuídas: O sistema é dividido em várias partes independentes que rodam separadamente e se comunicam através da rede. Pense em vários docinhos diferentes que juntos formam a sobremesa.
+O texto vai detalhar vários estilos dentro dessas categorias, mas já adianta que as arquiteturas distribuídas, apesar de serem mais poderosas em termos de desempenho, escalabilidade e disponibilidade, trazem consigo novos desafios.
+
+As "Oito Falácias da Computação Distribuída": As Ciladas da Rede
+
+Quem trabalha com sistemas distribuídos precisa ter em mente que a rede não é perfeita. Existem algumas "ilusões" comuns que arquitetos e desenvolvedores têm sobre a rede, mas que não são verdade:
+
+A rede é confiável: Não é! Ela pode falhar, ter problemas de conexão, etc.
+A latência é zero: Leva tempo para a informação ir de um lugar para outro na rede.
+A largura de banda é infinita: A quantidade de dados que pode ser transmitida pela rede em um certo tempo é limitada.
+A rede é segura: A comunicação pela rede pode ser interceptada e atacada.
+A topologia nunca muda: A estrutura da rede (roteadores, etc.) muda o tempo todo.
+Existe apenas um administrador: Em empresas grandes, existem vários administradores de rede.
+O custo do transporte é zero: Usar a rede tem custos (infraestrutura, etc.).
+A rede é homogênea: A rede é feita de equipamentos de diferentes fabricantes, que nem sempre funcionam perfeitamente juntos.
+Entender essas "falácias" é crucial para projetar sistemas distribuídos que funcionem de forma confiável e eficiente.
+
+Outras Considerações em Sistemas Distribuídos:
+
+Além das falácias, existem outros desafios em arquiteturas distribuídas que não existem em sistemas monolíticos:
+
+Log distribuído: Acompanhar o que aconteceu em diferentes partes do sistema para encontrar um erro é muito mais difícil.
+Transações distribuídas: Garantir que várias operações em diferentes partes do sistema aconteçam de forma consistente (tudo ou nada) é mais complexo do que em um sistema único.
+Manutenção e versionamento de contrato: Definir e manter as regras de comunicação entre as diferentes partes do sistema (os "contratos") e lidar com diferentes versões desses contratos é um desafio.
+
+
+
+
+
+
+
 
 
 Aula 24/04
