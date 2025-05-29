@@ -443,6 +443,142 @@ copartilhamento de componentes
 
 pulo de camadas tambem é possivel
 
+#Dia 28/05
+
+-Resumo
+
+
+
+# Topologia da Arquitetura Baseada em Serviços
+
+A topologia básica da SBA consiste em:
+
+- Interface de usuário (IU) separada: Implantada de forma independente.
+- Serviços de domínio remotos e separados: São as "partes de uma aplicação", independentes e implantadas separadamente, geralmente como arquivos EAR, WAR ou assembly, sem a necessidade obrigatória de conteinerização.
+- Banco de dados monolítico: Normalmente, os serviços compartilham um único banco de dados.
+
+O número de serviços em um contexto de aplicação geralmente varia entre quatro e doze, com uma média de sete. Embora uma única instância de cada serviço de domínio seja comum, múltiplas instâncias podem existir para escalabilidade, tolerância a falhas e necessidades de taxa de transmissão, exigindo balanceamento de carga.
+
+Os serviços são acessados remotamente pela IU usando protocolos como REST, mensageria, RPC ou SOAP. Em muitos casos, a IU acessa os serviços diretamente, embora uma camada de API (proxy ou gateway) possa ser usada para acesso externo ou para consolidar preocupações transversais.
+
+Um aspecto crucial é o banco de dados compartilhado centralizado, que permite que os serviços utilizem consultas SQL e junções como em uma arquitetura monolítica. A principal preocupação nesse modelo são as alterações no esquema do banco de dados, que podem impactar múltiplos serviços se não forem gerenciadas corretamente.
+
+
+
+#Variantes da Topologia
+
+A SBA oferece grande flexibilidade de topologia:
+
+- IU federada: A IU monolítica pode ser dividida em domínios de IU, correspondendo aos serviços de domínio.
+- Bancos de dados particionados: O banco de dados monolítico pode ser dividido em bancos de dados separados, até o ponto de corresponder a cada serviço de domínio (similar a microsserviços). Nesses casos, é vital garantir que os dados de um banco de dados não sejam necessários por outro serviço para evitar comunicação interna e duplicação de dados.
+- Camada de API: Um proxy ou gateway reverso pode ser adicionado entre a IU e os serviços para expor funcionalidades a sistemas externos ou consolidar preocupações transversais (métricas, segurança, auditoria, descoberta de serviço).
+
+
+
+#Design do Serviço e Granularidade
+
+Os serviços de domínio na SBA são granulares e tipicamente projetados com uma arquitetura em camadas (fachada da API, camada comercial e camada de persistência) ou por subdomínios, similar a monólitos modulares.
+
+A fachada de acesso à API orquestra as requisições de negócio da IU. Por exemplo, um serviço `OrderService` pode orquestrar internamente a criação de um pedido, a aplicação de pagamento e a atualização de inventário. Essa orquestração no nível da classe interna é uma diferença chave em relação aos microsserviços, que orquestrariam vários serviços remotos menores para a mesma tarefa.
+
+A granularidade dos serviços permite o uso de transações ACID (atomicidade, consistência, isolamento, durabilidade), garantindo 
+-a integridade do banco de dados. Em contraste, arquiteturas altamente distribuídas como microsserviços frequentemente usam transações BASE (disponibilidade básica, estado suave, consistência eventual), que oferecem consistência eventual e menor nível de integridade de dados.
+
+Embora a granularidade dos serviços na SBA proporcione melhor integridade de dados, uma alteração em um serviço pode exigir o teste de uma funcionalidade mais ampla (ex: processamento de pagamento dentro de um `OrderService` maior), o que pode aumentar o risco de quebrar outras funcionalidades em comparação com microsserviços.
+
+
+
+#Particionamento do Banco de Dados
+
+O compartilhamento de um banco de dados monolítico é comum na SBA. Para mitigar o impacto de alterações no esquema de banco de dados, é recomendável particioná-lo logicamente e manifestar esse particionamento através de bibliotecas compartilhadas federadas. Em vez de uma única biblioteca com todos os objetos de entidade, ter bibliotecas específicas para cada domínio lógico (ex: `invoice_entities_lib`) garante que alterações em um domínio afetem apenas os serviços que usam aquela biblioteca, reduzindo o esforço e a coordenação. Tabelas e objetos de entidade comuns devem ter acesso de alteração limitado para controlar mudanças que afetam todos os serviços.
+
+
+
+- Classificações das Características da Arquitetura
+
+A SBA é particionada por domínio, o que significa que a estrutura é orientada pelo domínio de negócio, não por considerações técnicas. Isso resulta em:
+
+Agilidade (4 estrelas): Capacidade de responder rapidamente a mudanças.
+Testabilidade (4 estrelas): Fácil e completa testagem devido ao escopo limitado do domínio.
+Implementabilidade (4 estrelas): Implementações mais frequentes com menor risco.
+
+Essas características contribuem para um melhor tempo de lançamento no mercado.
+
+- Tolerância a Falhas e Disponibilidade (4 estrelas): Devido à independência dos serviços, a falha de um serviço geralmente não impacta os outros.
+- Escalabilidade (3 estrelas) e Elasticidade (2 estrelas):** Embora possíveis, a replicação de mais funcionalidade em serviços mais granulares torna-a menos eficiente em termos de recursos de máquina em comparação com microsserviços.
+- Simplicidade e Custo Geral (altos): A SBA é a arquitetura distribuída mais fácil e econômica de implementar, tornando-a atraente para muitas empresas.
+- Confiabilidade (alta): Serviços maiores resultam em menos tráfego de rede e menos transações distribuídas, aumentando a confiabilidade geral da rede.
+
+O número de quanta (unidades independentes de implantação) em uma SBA pode ser um ou mais. Mesmo com vários serviços implantados separadamente, se eles compartilham o mesmo banco de dados ou IU, o sistema inteiro pode ser considerado um único quantum. No entanto, com IU e banco de dados federados, pode haver múltiplos quanta.
+
+
+
+#Quando Usar Este Estilo de Arquitetura
+
+A flexibilidade e as classificações de três e quatro estrelas em diversas características tornam a SBA um dos estilos mais pragmáticos. É ideal para:
+
+- Design Orientado a Domínios: Como os serviços são granulares e no escopo do domínio, cada domínio se encaixa bem em um serviço de domínio implantado separadamente, facilitando a aplicação de alterações.
+- Preservação de Transações ACID: A SBA preserva melhor as transações ACID do que outras arquiteturas distribuídas, pois a maioria das transações fica no escopo de um único serviço de domínio. Em casos de orquestração de múltiplos serviços, podem ser necessárias sagas e transações BASE.
+- Modularidade Arquitetural sem Complexidade Excessiva: Oferece um bom nível de modularidade sem as complexidades e armadilhas da granularidade fina, como a necessidade de orquestração e coreografia extensivas encontradas em microsserviços.
+
+Em resumo, a arquitetura baseada em serviços oferece um equilíbrio sólido entre os benefícios das arquiteturas distribuídas e a simplicidade de implementação, tornando-a uma opção robusta e acessível para muitas aplicações comerciais.
+
+
+
+# Topologia e Filosofia
+
+A topologia de microsserviços é caracterizada por:
+
+-Serviços Distribuídos: Cada serviço roda em seu próprio processo, tipicamente em contêineres ou máquinas virtuais. Isso permite isolamento operacional e facilita o gerenciamento de recursos. No entanto, a natureza distribuída pode impactar a performance devido a chamadas de rede e verificações de segurança adicionais.
+- Contexto Delimitado:** A essência dos microsserviços é que cada serviço modela um domínio ou fluxo de trabalho específico, incluindo tudo o que precisa para operar independentemente (classes, subcomponentes e esquemas de banco de dados). Isso leva a um extremo desacoplamento em níveis lógicos e operacionais.
+- Granularidade: O termo "microsserviço" é um rótulo, não uma descrição de tamanho. A granularidade ideal busca capturar um domínio ou fluxo de trabalho funcionalmente coeso. Erros comuns incluem tornar os serviços pequenos demais, o que leva a uma comunicação excessiva entre eles. A iteração no design é crucial para encontrar a granularidade certa.
+Isolamento dos Dados: Cada microsserviço possui seu banco de dados contido (contained database), evitando esquemas e bancos de dados compartilhados para eliminar pontos de acoplamento. Embora isso crie desafios de coordenação de dados, permite que cada serviço escolha a tecnologia de persistência mais adequada para suas necessidades, aumentando a flexibilidade.
+- Camada da API (Opcional):** Geralmente presente entre os consumidores (IUs, outros sistemas) e os microsserviços. É um local estratégico para tarefas operacionais como descoberta de serviços e gerenciamento de tráfego, mas não deve ser usada para orquestração de lógica de negócio, pois isso violaria a filosofia de contexto delimitado.
+- Reutilização Operacional: Em vez de compartilhar funcionalidades operacionais no código (o que geraria acoplamento), microsserviços utilizam o padrão sidecar. Componentes sidecar separados, próximos a cada microsserviço, lidam com preocupações transversais (monitoramento, log, circuit breakers). Esses sidecars podem se conectar para formar uma malha de serviços, proporcionando controle unificado e visibilidade global sobre os aspectos operacionais.
+- Descoberta de Serviços:** Essencial para a elasticidade, permite que as requisições encontrem instâncias de serviços disponíveis, monitorando o número e a frequência das requisições para ativar novas instâncias conforme a necessidade.
+
+
+
+#Comunicação
+
+A comunicação entre microsserviços pode ser:
+
+- Síncrona: Geralmente por protocolos reconhecidos (ex: REST), onde o solicitante aguarda uma resposta. Os microsserviços favorecem a interoperabilidade heterogênea com reconhecimento de protocolo, permitindo que diferentes serviços usem diferentes stacks tecnológicas e se comuniquem por meio de protocolos padronizados.
+ Assíncrona: Comumente através de eventos e mensagens, utilizando padrões de coreografia ou orquestração.
+
+#Coreografia e Orquestração
+
+- Coreografia: Não há um coordenador central. Os serviços se comunicam diretamente através de eventos, respeitando a filosofia de desacoplamento do contexto delimitado. Isso é vantajoso para a filosofia da arquitetura, mas pode tornar a coordenação e o tratamento de erros mais complexos em fluxos de trabalho complexos.
+- Orquestração: Um serviço mediador central coordena as chamadas entre múltiplos serviços para um fluxo de trabalho complexo. Embora crie algum acoplamento, centraliza a lógica de coordenação e simplifica o tratamento de erros em cenários mais intrincados. A escolha entre coreografia e orquestração depende da complexidade do fluxo de trabalho e do equilíbrio entre desacoplamento e facilidade de coordenação.
+
+
+
+#Transações e Sagas
+
+Em microsserviços, criar transações que abrangem vários serviços é desencorajado, pois viola o princípio fundamental do desacoplamento. O ideal é corrigir a granularidade dos serviços para que as transações ocorram dentro de um único serviço (transações ACID).
+
+Quando transações distribuídas são inevitáveis (devido a requisitos de arquitetura muito diferentes), o padrão Saga é uma solução popular. Uma saga coordena uma sequência de transações locais, onde cada transação atualiza os dados em um único serviço. Se uma parte da transação falha, a saga executa transações de compensação para desfazer as operações bem-sucedidas anteriores, restaurando a consistência do sistema. No entanto, o padrão saga adiciona complexidade e tráfego de rede, e seu uso deve ser parcimonioso.
+
+
+#Classificações das Características da Arquitetura
+
+Microsserviços se destacam em:
+
+- Escalabilidade (5 estrelas): Permite escalar serviços individualmente.
+- Elasticidade (5 estrelas): Alta capacidade de adaptação à demanda, suportada por automação e descoberta de serviços.
+- Evolutibilidade (5 estrelas): Favorece a alteração evolutiva no nível da arquitetura devido às unidades de implementação pequenas e altamente desacopladas.
+- Agilidade, Testabilidade, Implementabilidade (Altas): Beneficiadas pelo desacoplamento e automação.
+
+Pontos que podem ser desafiadores:
+
+- Performance (2 estrelas): Devido ao overhead de chamadas de rede e verificações de segurança.
+- Confiabilidade e Tolerância a Falhas (impactadas por muita comunicação entre serviços):** Embora tendam a ser altas devido à independência dos serviços, dependem da minimização da comunicação entre eles.
+
+Em essência, a arquitetura de microsserviços, com sua filosofia de desacoplamento extremo e foco no domínio, oferece imensos benefícios em escalabilidade e agilidade, mas requer um gerenciamento cuidadoso da granularidade, isolamento de dados e comunicação para mitigar suas complexidades inerentes.
+
+
+
+
 
 
 
